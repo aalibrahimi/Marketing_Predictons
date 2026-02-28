@@ -1,9 +1,36 @@
+"use client";
+import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import { useState } from "react";
 
 export default function Home() {
+  // If launching project in development mode, use localhost as backend URL. Otherwise use the production URL
+  const backendUrl =
+    process.env.NODE_ENV === "development"
+      ? "http://localhost:3001"
+      : process.env.NEXT_PUBLIC_BACKEND_URL;
+
+  // Using `useState` to display message received from backend in frontend UI
+  const [pingMessage, setPingMessage] = useState("");
+
+  // Function calls the backend and displays message on screen
+  const pingBackend = async () => {
+    const body = await fetch(`${backendUrl}`, {
+      method: "GET",
+    });
+
+    const response = await body.text();
+    console.log(response);
+    setPingMessage(response);
+  };
   return (
     <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
       <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
+        {/* Ping Message */}
+        <span className="absolute top-0 right-0 bg-zinc-700 border border-zinc-500 text-white text-2xl p-2 rounded-lg">
+          {pingMessage}
+        </span>
+
         <Image
           className="dark:invert"
           src="/next.svg"
@@ -58,6 +85,13 @@ export default function Home() {
           >
             Documentation
           </a>
+          <Button
+            type="button"
+            onClick={() => pingBackend()}
+            className="rounded-full h-12 hover:cursor-pointer"
+          >
+            Ping Backend
+          </Button>
         </div>
       </main>
     </div>

@@ -3,6 +3,10 @@ from flask import Flask
 from flask_cors import CORS
 from supabase import create_client, Client
 from dotenv import load_dotenv
+import kagglehub
+import pandas as pd
+# from rich.traceback import install
+# install()
 
 load_dotenv()
 
@@ -14,6 +18,9 @@ supabase: Client = create_client(
     os.environ.get("SUPABASE_URL"),
     os.environ.get("SUPABASE_KEY")
 )
+
+kagglehub.dataset_download("rabieelkharoua/predict-conversion-in-digital-marketing-dataset", output_dir="kaggle_download")
+csv_df = pd.read_csv("kaggle_download/digital_marketing_campaign_dataset.csv")
 
 @app.route('/')
 def index():

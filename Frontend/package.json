@@ -4,8 +4,10 @@
   "private": true,
   "scripts": {
     "backend": "cd ../Backend && python main.py",
+    "mac_backend": "cd ../Backend && python3 main.py",
     "frontend": "next dev",
     "dev": "concurrently \"bun run backend\" \"bun run frontend\"",
+    "macdev": "concurrently \"bun run backend\" \"bun run frontend\"",
     "build": "next build",
     "start": "next start -p $PORT -H 0.0.0.0"
   },
